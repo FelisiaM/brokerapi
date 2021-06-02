@@ -23,7 +23,7 @@ jobs:
         PR: ${{ github.event.number }}
       with:
 #         ref: "refs/pull/$PR/merge"
-        ref: format('refs/pull/{0}/merge', "$PR")
+        ref: ${{ format('refs/pull/{0}/merge', "$PR") }}
     - run: make test
   automerge:
     needs: test
