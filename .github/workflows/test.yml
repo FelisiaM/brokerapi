@@ -3,10 +3,10 @@ name: test
 on: 
   push:
     branches: [ main ]
-  pull_request_target:
+  pull_request:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -18,20 +18,3 @@ jobs:
         go-version: ${{ matrix.version }}
     - uses: actions/checkout@v2
     - run: make test
-  automerge:
-    needs: build
-    name: Merge Dependabot Pull Pequest
-    runs-on: ubuntu-latest
-    if: ${{ success() && github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }}
-    steps:
-      - name: Merge
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            github.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-              merge_method: 'squash'
-            })
