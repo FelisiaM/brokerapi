@@ -16,7 +16,7 @@ jobs:
         go-version: ${{ matrix.version }}
     - uses: actions/checkout@v2
       with:
-        ref: ${{ format('refs/pull/{0}/merge', context.issue.number) }}
+        ref: ${{github.head_ref}}
     - run: make test
   automerge:
     needs: test
