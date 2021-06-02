@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Dump GitHub context
       env:
-        PR: ${{ toJSON(github) }}
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
       run: echo "$GITHUB_CONTEXT"
     - uses: actions/setup-go@v2
       with:
@@ -22,7 +22,7 @@ jobs:
       env:
         PR: ${{ github.event.number }}
       with:
-        ref: 'refs/pull/$PR/merge'
+        ref: "refs/pull/$PR/merge"
     - run: make test
   automerge:
     needs: test
