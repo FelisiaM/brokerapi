@@ -19,11 +19,8 @@ jobs:
       with:
         go-version: ${{ matrix.version }}
     - uses: actions/checkout@v2
-      env:
-        PR: ${{ github.event.number }}
       with:
-#         ref: "refs/pull/$PR/merge"
-        ref: ${{ format('refs/pull/{0}/merge', $PR) }}
+        ref: ${{ format('refs/pull/{0}/merge', ${{ github.event.number }}) }}
     - run: make test
   automerge:
     needs: test
