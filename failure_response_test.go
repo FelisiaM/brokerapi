@@ -33,7 +33,7 @@ var _ = Describe("FailureResponse", func() {
 		It("returns a ErrorResponse containing the error message", func() {
 			failureResponse := brokerapi.NewFailureResponse(errors.New("my error message"), http.StatusForbidden, "log-key")
 			Expect(failureResponse.ErrorResponse()).To(Equal(brokerapi.ErrorResponse{
-				Description: "my errofghsr message",
+				Description: "my errofghsr messfdsage",
 			}))
 		})
 
