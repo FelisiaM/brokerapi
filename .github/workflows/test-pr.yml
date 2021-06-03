@@ -1,6 +1,8 @@
 name: test-pr
 
 on: 
+  push:
+    branches: [ main ]
   pull_request_target:
 
 jobs:
@@ -11,22 +13,21 @@ jobs:
         version: [ '1.15', '1.16' ]
     name: Go ${{ matrix.version }}
     steps:
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: echo "$GITHUB_CONTEXT"
     - uses: actions/setup-go@v2
       with:
         go-version: ${{ matrix.version }}
+    - if: ${{ github.event_name == 'pull_request_target' }}
+      env:
+        GITHUB_REF: ${{ format('refs/pull/{0}/merge', github.event.number) }}
     - uses: actions/checkout@v2
       with:
-        ref: ${{ format('refs/pull/{0}/merge', github.event.number) }}
-    - run: make test
+        ref: "$GITHUB_REF"
+    - run: ./scripts/run-tests.sh -race -failOnPending -skipPackage=contract_tests,system_tests
   automerge:
     needs: test
     name: Merge Dependabot Pull Pequest
     runs-on: ubuntu-latest
-    if: ${{ success() && github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]' }}
+    if: ${{ success() && github.actor == 'dependabot[bot]' }}
     steps:
       - name: Merge
         uses: actions/github-script@v4
