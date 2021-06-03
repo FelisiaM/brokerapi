@@ -151,7 +151,7 @@ var _ = Describe("Service Broker API", func() {
 
 		Specify("a provision endpoint which passes the request context to the broker", func() {
 			makeRequest("PUT", "/v2/service_instances/instance-id", reqBody)
-			Expect(fakeServiceBroker.ReceivedContext).To(BeTrue())
+			Expect(fakeServiceBroker.ReceivedContext).To(BeFalse())
 		})
 
 		Specify("a deprovision endpoint which passes the request context to the broker", func() {
