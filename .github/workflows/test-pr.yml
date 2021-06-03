@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ format('refs/pull/{0}/merge', github.event.number) }}
-    - run: ./scripts/run-tests.sh -race -failOnPending -skipPackage=contract_tests,system_tests
+    - run: make test
   automerge:
     needs: test
     name: Merge Dependabot Pull Pequest
