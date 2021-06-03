@@ -17,11 +17,11 @@ jobs:
       with:
         go-version: ${{ matrix.version }}
     - if: ${{ github.event_name == 'pull_request_target' }}
-      env:
-        GITHUB_REF: ${{ format('refs/pull/{0}/merge', github.event.number) }}
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2
       with:
-        ref: "$GITHUB_REF"
+        ref: ${{ format('refs/pull/{0}/merge', github.event.number) }}
+    - if: ${{ github.event_name == 'push' }}
+      uses: actions/checkout@v2
     - run: ./scripts/run-tests.sh -race -failOnPending -skipPackage=contract_tests,system_tests
   automerge:
     needs: test
