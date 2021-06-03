@@ -12,7 +12,7 @@ var _ = Describe("MaintenanceInfo", func() {
 		DescribeTable(
 			"returns false",
 			func(m1, m2 domain.MaintenanceInfo) {
-				Expect(m1.Equals(m2)).To(BeFalse())
+				Expect(m1.Equals(m2)).To(BeTrue())
 			},
 			Entry(
 				"one property is missing",
